@@ -43,7 +43,7 @@ STD=`echo -e "\033[0m"`		# Text Clear
 build_kernel(){  
   echo "${BGREEN}***** Compiling kernel *****${STD}"
   [ ! -d "$OUT_DIR" ] && mkdir $OUT_DIR
-  make -j$(nproc) -C $(pwd) $KERNEL_MAKE_ENV exynos2100-r9sxxx_defconfig
+  make -j$(nproc) -C $(pwd) $KERNEL_MAKE_ENV exynos2100-t2sxxx_defconfig
   make -j$(nproc) -C $(pwd) $KERNEL_MAKE_ENV
 
   [ -e "$(pwd)/arch/arm64/boot/Image.gz" ] && cp "$(pwd)/arch/arm64/boot/Image.gz" $OUT_DIR/Image.gz
@@ -52,7 +52,7 @@ build_kernel(){
 
     DTB_DIR=$(pwd)/arch/arm64/boot/dts
     $(pwd)/tools/mkdtimg cfg_create $(pwd)/out/dtb.img dt.configs/exynos2100.cfg -d ${DTB_DIR}/exynos
-    $(pwd)/tools/mkdtimg cfg_create $(pwd)/out/dtbo.img dt.configs/r9s.cfg -d ${DTB_DIR}/samsung/r9s
+    $(pwd)/tools/mkdtimg cfg_create $(pwd)/out/dtbo.img dt.configs/t2ss.cfg -d ${DTB_DIR}/samsung/t2ss
     echo "${BGREEN}***** Ready to Roar *****${STD}"
   fi
 
@@ -62,8 +62,8 @@ build_kernel(){
     git reset --hard
     cp $IMAGE zImage
     cp $OUT_DIR/dtbo.img dtbo.img
-    sed -i "s/ExampleKernel by osm0sis/exynos2100-r9sxxx Stock kernel by prorooter007/g" anykernel.sh
-    sed -i "s/=maguro/=r9s/g" anykernel.sh
+    sed -i "s/ExampleKernel by osm0sis/exynos2100-t2ssxxx Stock kernel by prorooter007/g" anykernel.sh
+    sed -i "s/=maguro/=t2ss/g" anykernel.sh
     sed -i "s/=toroplus/=/g" anykernel.sh
     sed -i "s/=toro/=/g" anykernel.sh
     sed -i "s/=tuna/=/g" anykernel.sh
@@ -73,9 +73,9 @@ build_kernel(){
     sed -i "s/insert_line/#insert_line/g" anykernel.sh
     sed -i "s/append_file/#append_file/g" anykernel.sh
     sed -i "s/patch_fstab/#patch_fstab/g" anykernel.sh
-    zip -r9 "$(pwd)/exynos2100-r9sxxx_kernel_.zip" * -x .git README.md *placeholder
+    zip -t2s "$(pwd)/exynos2100-t2ssxxx_kernel_.zip" * -x .git README.md *placeholder
     
-    curl https://bashupload.com/$REPACK_DIR/exynos2100-r9sxxx_kernel_.zip --data-binary @$REPACK_DIR/exynos2100-r9sxxx_kernel_.zip
+    curl https://bashupload.com/$REPACK_DIR/exynos2100-t2ssxxx_kernel_.zip --data-binary @$REPACK_DIR/exynos2100-t2ssxxx_kernel_.zip
   fi
 }
 
